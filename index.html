@@ -10,11 +10,13 @@
       --bg-2: #061009;
       --bg-3: #0a1610;
       --panel: rgba(7, 16, 10, 0.94);
+      --panel-2: rgba(10, 22, 14, 0.96);
       --panel-border: rgba(44, 160, 92, 0.2);
       --text: #ecfff0;
       --muted: #7f9888;
       --green: #4fd07c;
       --green-2: #245f3d;
+      --green-3: #163825;
       --shadow: rgba(22, 88, 49, 0.22);
     }
 
@@ -86,6 +88,76 @@
       color: var(--text);
     }
 
+    .lang-switcher {
+      position: relative;
+      margin-left: 18px;
+    }
+
+    .lang-current {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(91, 255, 147, 0.16);
+      background: rgba(8, 18, 11, 0.88);
+      color: var(--text);
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .lang-current:hover {
+      transform: translateY(2px);
+      color: var(--green);
+      border-color: rgba(91, 255, 147, 0.32);
+    }
+
+    .lang-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      min-width: 132px;
+      background: rgba(245, 245, 245, 0.96);
+      border-radius: 18px;
+      padding: 10px;
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.34);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-8px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .lang-menu.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .lang-option {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      padding: 14px 12px;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #111;
+      cursor: pointer;
+      transition: background 0.18s ease, transform 0.18s ease;
+    }
+
+    .lang-option:hover {
+      background: rgba(0, 0, 0, 0.06);
+      transform: translateX(2px);
+    }
+
+    .lang-option + .lang-option {
+      border-top: 1px solid rgba(0, 0, 0, 0.12);
+      border-radius: 0;
+    }
+
     nav ul {
       display: flex;
       list-style: none;
@@ -104,6 +176,10 @@
     nav a:hover {
       color: var(--green);
       transform: translateY(3px);
+    }
+
+    nav a:active {
+      transform: translateY(6px) scale(0.98);
     }
 
     .hero {
@@ -159,6 +235,7 @@
       text-decoration: none;
       font-weight: 800;
       transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, filter 0.2s ease;
+      will-change: transform;
     }
 
     .btn-primary {
@@ -176,6 +253,10 @@
     .btn:hover {
       transform: translateY(3px);
       filter: brightness(1.04);
+    }
+
+    .btn:active {
+      transform: translateY(8px) scale(0.985);
     }
 
     .features {
@@ -275,6 +356,7 @@
       position: relative;
       z-index: 1;
       animation: cardFloat 5.2s ease-in-out infinite;
+      will-change: transform;
     }
 
     .plan-card.popular .plan-card-inner {
@@ -346,6 +428,13 @@
     .plan-card .btn {
       width: 100%;
       text-align: center;
+    }
+
+    footer {
+      border-top: 1px solid rgba(91, 255, 147, 0.1);
+      color: var(--muted);
+      text-align: center;
+      padding: 24px 0 40px;
     }
 
     .community {
@@ -446,7 +535,7 @@
       border-radius: 18px;
       backdrop-filter: blur(8px);
       box-shadow: 0 20px 45px rgba(0, 0, 0, 0.34);
-      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
     }
 
     .review-card:hover {
@@ -534,13 +623,17 @@
       font-size: 1.1rem;
       font-weight: 800;
       position: relative;
-      user-select: none;
       transition: color 0.25s ease, transform 0.22s ease;
+      user-select: none;
     }
 
     .faq-item summary:hover {
       color: var(--green);
       transform: translateY(4px);
+    }
+
+    .faq-item summary:active {
+      transform: translateY(8px) scale(0.99);
     }
 
     .faq-item summary::-webkit-details-marker {
@@ -594,11 +687,123 @@
       opacity: 1;
     }
 
-    footer {
-      border-top: 1px solid rgba(91, 255, 147, 0.1);
-      color: var(--muted);
+    .contact-page {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(40px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      overflow-y: auto;
+      background: linear-gradient(180deg, rgba(2, 6, 3, 0.97), rgba(5, 14, 8, 0.98));
+    }
+
+    .contact-page.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .contact-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(79, 208, 124, 0.09), transparent 24%),
+        radial-gradient(circle at 80% 10%, rgba(79, 208, 124, 0.08), transparent 20%),
+        linear-gradient(180deg, rgba(2, 5, 2, 0.88), rgba(4, 12, 7, 0.96));
+    }
+
+    .contact-shell {
+      position: relative;
+      z-index: 2;
+      padding: 34px 0 80px;
+    }
+
+    .contact-topbar {
+      display: flex;
+      justify-content: flex-start;
+      margin-bottom: 28px;
+    }
+
+    .back-btn {
+      border: 1px solid rgba(79, 208, 124, 0.18);
+      background: rgba(8, 18, 11, 0.85);
+      color: var(--text);
+      padding: 12px 18px;
+      border-radius: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .back-btn:hover {
+      transform: translateY(3px);
+      color: var(--green);
+      border-color: rgba(79, 208, 124, 0.35);
+    }
+
+    .contact-hero {
       text-align: center;
-      padding: 24px 0 40px;
+      max-width: 860px;
+      margin: 0 auto 40px;
+      animation: fadeUp 0.55s ease;
+    }
+
+    .contact-hero h1 {
+      font-size: clamp(2.6rem, 7vw, 4.8rem);
+      line-height: 0.98;
+      margin-bottom: 18px;
+    }
+
+    .contact-hero p {
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 1.05rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+    }
+
+    .contact-card {
+      background: linear-gradient(180deg, rgba(7, 15, 9, 0.95), rgba(8, 18, 11, 0.9));
+      border: 1px solid rgba(79, 208, 124, 0.14);
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.28);
+      animation: fadeUp 0.45s ease;
+    }
+
+    .contact-card.big-card {
+      min-height: 220px;
+    }
+
+    .contact-card h3 {
+      color: var(--green);
+      margin-bottom: 12px;
+      font-size: 1.2rem;
+    }
+
+    .contact-card p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .contact-value {
+      display: inline-block;
+      margin-bottom: 14px;
+      font-size: 1.45rem;
+      font-weight: 800;
+      color: var(--text);
+      text-decoration: none;
+      word-break: break-word;
+    }
+
+    body.contact-open {
+      overflow: hidden;
     }
 
     @keyframes float {
@@ -654,7 +859,8 @@
     @media (max-width: 980px) {
       .feature-grid,
       .pricing-grid,
-      .review-grid {
+      .review-grid,
+      .contact-grid {
         grid-template-columns: 1fr;
       }
 
@@ -689,28 +895,39 @@
       <div class="logo">Hacking <span>Area</span></div>
       <nav>
         <ul>
-          <li><a href="#home">Start</a></li>
-          <li><a href="#features">Funkcje</a></li>
-          <li><a href="#pricing">Zakup</a></li>
-          <li><a href="#community">Community</a></li>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="kontakt.html">Kontakt</a></li>
+          <li><a href="#home" id="navHome">Start</a></li>
+          <li><a href="#features" id="navFeatures">Funkcje</a></li>
+          <li><a href="#pricing" id="navPricing">Zakup</a></li>
+          <li><a href="#community" id="navCommunity">Community</a></li>
+          <li><a href="#faq" id="navFaq">FAQ</a></li>
+          <li><a href="#contact-page" id="contactLink">Kontakt</a></li>
         </ul>
       </nav>
+      <div class="lang-switcher">
+        <button class="lang-current" id="langToggle" type="button" aria-expanded="false">
+          <span class="lang-icon">🌐</span>
+          <span id="currentLangLabel">PL</span>
+          <span class="lang-arrow">⌄</span>
+        </button>
+        <div class="lang-menu" id="langMenu">
+          <button type="button" class="lang-option" data-lang="en">🇬🇧 EN</button>
+          <button type="button" class="lang-option" data-lang="pl">🇵🇱 PL</button>
+        </div>
+      </div>
     </div>
   </header>
 
   <main>
     <section class="hero" id="home">
       <div class="container">
-        <div class="badge">/New Edition</div>
-        <h1>Wejdź do <span class="accent">Hacking Area</span> i odblokuj swój styl</h1>
-        <p>
+        <div class="badge" id="heroBadge">/New Edition</div>
+        <h1><span id="heroTitle1">Wejdź do</span> <span class="accent" id="heroTitle2">Hacking Area</span> <span id="heroTitle3">i odblokuj swój styl</span></h1>
+        <p id="heroDesc">
           Nowoczesna platforma premium z ciemnym zielonym motywem, gotowymi konfiguracjami i dostępem do aktywnej społeczności.
         </p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#pricing">Zobacz plany</a>
-          <a class="btn btn-secondary" href="#features">Więcej informacji</a>
+          <a class="btn btn-primary" href="#pricing" id="heroBtn1">Zobacz plany</a>
+          <a class="btn btn-secondary" href="#features" id="heroBtn2">Więcej informacji</a>
         </div>
       </div>
     </section>
@@ -718,72 +935,72 @@
     <section class="features" id="features">
       <div class="container feature-grid">
         <div class="feature-card">
-          <h3>Nowoczesny kod</h3>
-          <p>Dzięki uniwersalnemu kodowi i przemyślanemu układowi strona działa płynnie i dobrze wygląda na różnych urządzeniach.</p>
+          <h3 id="feature1Title">Nowoczesny kod</h3>
+          <p id="feature1Desc">Dzięki uniwersalnemu kodowi i przemyślanemu układowi strona działa płynnie i dobrze wygląda na różnych urządzeniach.</p>
         </div>
         <div class="feature-card">
-          <h3>Szybka pomoc</h3>
-          <p>Nasz support i administratorzy zapewniają sprawny kontakt oraz pomoc dla użytkowników w każdej chwili.</p>
+          <h3 id="feature2Title">Szybka pomoc</h3>
+          <p id="feature2Desc">Nasz support i administratorzy zapewniają sprawny kontakt oraz pomoc dla użytkowników w każdej chwili.</p>
         </div>
         <div class="feature-card">
-          <h3>Plany warte swojej ceny</h3>
-          <p>Każdy plan daje dostęp do regularnych aktualizacji, materiałów premium i dodatkowych korzyści zależnych od wybranego wariantu.</p>
+          <h3 id="feature3Title">Plany warte swojej ceny</h3>
+          <p id="feature3Desc">Każdy plan daje dostęp do regularnych aktualizacji, materiałów premium i dodatkowych korzyści zależnych od wybranego wariantu.</p>
         </div>
       </div>
     </section>
 
     <section class="pricing" id="pricing">
       <div class="container">
-        <h2 class="section-title">Plany zakupu licencji</h2>
-        <p class="section-subtitle">
+        <h2 class="section-title" id="pricingTitle">Plany zakupu licencji</h2>
+        <p class="section-subtitle" id="pricingSubtitle">
           Każdy plan oferuje długoterminowy dostęp, aktualizacje oraz dodatkowe korzyści zależnie od wybranego poziomu.
         </p>
 
         <div class="pricing-grid">
           <div class="plan-card">
             <div class="plan-card-inner">
-              <div class="plan-name">Plan Basic</div>
-              <div class="plan-desc">Dobry na start dla osób, które chcą sprawdzić podstawową wersję i szybki dostęp.</div>
+              <div class="plan-name" id="planBasicName">Plan Basic</div>
+              <div class="plan-desc" id="planBasicDesc">Dobry na start dla osób, które chcą sprawdzić podstawową wersję i szybki dostęp.</div>
               <div class="price">7€ <span>/ Hacking Area</span></div>
               <div class="divider"></div>
               <ul>
-                <li>Dostęp Basic</li>
-                <li>Podstawowe aktualizacje</li>
-                <li>Standard license</li>
+                <li id="basicFeature1">Dostęp Basic</li>
+                <li id="basicFeature2">Podstawowe aktualizacje</li>
+                <li id="basicFeature3">Standard license</li>
               </ul>
-              <a href="kupno.html?plan=Basic&price=7€" class="btn btn-secondary">Kup teraz</a>
+              <a href="https://dc.ablesmp.pl" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" id="buyBasicBtn">Kup teraz</a>
             </div>
           </div>
 
           <div class="plan-card popular">
-            <div class="tag">Najpopularniejszy</div>
+            <div class="tag" id="popularTag">Najpopularniejszy</div>
             <div class="plan-card-inner">
-              <div class="plan-name">Plan Pro</div>
-              <div class="plan-desc">Najlepszy wybór dla użytkowników, którzy chcą pełny pakiet i bardziej rozbudowane możliwości.</div>
+              <div class="plan-name" id="planProName">Plan Pro</div>
+              <div class="plan-desc" id="planProDesc">Najlepszy wybór dla użytkowników, którzy chcą pełny pakiet i bardziej rozbudowane możliwości.</div>
               <div class="price">10€ <span>/ Hacking Area</span></div>
               <div class="divider"></div>
               <ul>
-                <li>Pełny dostęp Basic</li>
-                <li>Priority updates</li>
-                <li>Beta access</li>
-                <li>Priorytetowe wsparcie</li>
+                <li id="proFeature1">Pełny dostęp Basic</li>
+                <li id="proFeature2">Priority updates</li>
+                <li id="proFeature3">Beta access</li>
+                <li id="proFeature4">Priorytetowe wsparcie</li>
               </ul>
-              <a href="kupno.html?plan=Pro&price=10€" class="btn btn-primary">Kup teraz</a>
+              <a href="https://dc.ablesmp.pl" target="_blank" rel="noopener noreferrer" class="btn btn-primary" id="buyProBtn">Kup teraz</a>
             </div>
           </div>
 
           <div class="plan-card">
             <div class="plan-card-inner">
-              <div class="plan-name">Plan Elite</div>
-              <div class="plan-desc">Dla osób, które chcą najbardziej premium wariant z dodatkowymi opcjami i najwyższym statusem.</div>
+              <div class="plan-name" id="planEliteName">Plan Elite</div>
+              <div class="plan-desc" id="planEliteDesc">Dla osób, które chcą najbardziej premium wariant z dodatkowymi opcjami i najwyższym statusem.</div>
               <div class="price">14€ <span>/ Hacking Area</span></div>
               <div class="divider"></div>
               <ul>
-                <li>Everything in Pro</li>
-                <li>Extra premium perks</li>
-                <li>VIP support</li>
+                <li id="eliteFeature1">Everything in Pro</li>
+                <li id="eliteFeature2">Extra premium perks</li>
+                <li id="eliteFeature3">VIP support</li>
               </ul>
-              <a href="kupno.html?plan=Elite&price=14€" class="btn btn-secondary">Kup teraz</a>
+              <a href="https://dc.ablesmp.pl" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" id="buyEliteBtn">Kup teraz</a>
             </div>
           </div>
         </div>
@@ -793,9 +1010,9 @@
     <section class="community" id="community">
       <div class="container">
         <div class="community-head">
-          <div class="community-label">CHMURA</div>
-          <h2>Konfiguracje użytkowników dostępne bez pobierania czegokolwiek.</h2>
-          <p>Zaufało nam wielu użytkowników. Poniżej znajdziesz przykładowe opinie i sekcję społeczności w nowoczesnym, ciemnym stylu.</p>
+          <div class="community-label" id="communityLabel">CHMURA</div>
+          <h2 id="communityTitle">Konfiguracje użytkowników dostępne bez pobierania czegokolwiek.</h2>
+          <p id="communityDesc">Zaufało nam wielu użytkowników. Poniżej znajdziesz przykładowe opinie i sekcję społeczności w nowoczesnym, ciemnym stylu.</p>
         </div>
 
         <div class="orbit-wrap">
@@ -848,48 +1065,199 @@
 
     <section class="faq" id="faq">
       <div class="container">
-        <h2 class="section-title faq-title">Najczęstsze pytania</h2>
-        <p class="section-subtitle faq-subtitle">Odpowiedzi na najczęściej zadawane pytania.</p>
+        <h2 class="section-title faq-title" id="faqTitle">Najczęstsze pytania</h2>
+        <p class="section-subtitle faq-subtitle" id="faqSubtitle">Odpowiedzi na najczęściej zadawane pytania.</p>
 
         <div class="faq-list">
           <details class="faq-item">
-            <summary>Co to Hacking Area?</summary>
-            <div class="faq-answer"><div class="faq-answer-inner"><p>Hacking Area to nowoczesna platforma z konfiguracjami, aktualizacjami i dostępem do społeczności skupionej wokół personalizacji oraz narzędzi premium.</p></div></div>
+            <summary id="faqQ1">Co to Hacking Area?</summary>
+            <div class="faq-answer"><div class="faq-answer-inner"><p id="faqA1">Hacking Area to nowoczesna platforma z konfiguracjami, aktualizacjami i dostępem do społeczności skupionej wokół personalizacji oraz narzędzi premium.</p></div></div>
           </details>
 
           <details class="faq-item">
-            <summary>Jak mogę korzystać z waszych planów?</summary>
-            <div class="faq-answer"><div class="faq-answer-inner"><p>Po zakupie otrzymujesz dostęp do wybranego planu, aktualizacji oraz materiałów przypisanych do konta. Wszystko jest dostępne w prosty i wygodny sposób.</p></div></div>
+            <summary id="faqQ2">Jak mogę korzystać z waszych planów?</summary>
+            <div class="faq-answer"><div class="faq-answer-inner"><p id="faqA2">Po zakupie otrzymujesz dostęp do wybranego planu, aktualizacji oraz materiałów przypisanych do konta. Wszystko jest dostępne w prosty i wygodny sposób.</p></div></div>
           </details>
 
           <details class="faq-item">
-            <summary>Co zawiera każdy plan?</summary>
-            <div class="faq-answer"><div class="faq-answer-inner"><p>Zakres zależy od planu, ale obejmuje między innymi dostęp do konfiguracji, aktualizacji, wsparcia oraz dodatkowych materiałów dla użytkowników premium.</p></div></div>
+            <summary id="faqQ3">Co zawiera każdy plan?</summary>
+            <div class="faq-answer"><div class="faq-answer-inner"><p id="faqA3">Zakres zależy od planu, ale obejmuje między innymi dostęp do konfiguracji, aktualizacji, wsparcia oraz dodatkowych materiałów dla użytkowników premium.</p></div></div>
           </details>
 
           <details class="faq-item">
-            <summary>Czy mogę zmienić plan później?</summary>
-            <div class="faq-answer"><div class="faq-answer-inner"><p>Tak, w każdej chwili możesz przejść na wyższy wariant, aby odblokować dodatkowe możliwości i priorytetowe wsparcie.</p></div></div>
+            <summary id="faqQ4">Czy mogę zmienić plan później?</summary>
+            <div class="faq-answer"><div class="faq-answer-inner"><p id="faqA4">Tak, w każdej chwili możesz przejść na wyższy wariant, aby odblokować dodatkowe możliwości i priorytetowe wsparcie.</p></div></div>
           </details>
 
           <details class="faq-item">
-            <summary>Czy strona jest responsywna?</summary>
-            <div class="faq-answer"><div class="faq-answer-inner"><p>Tak, projekt został przygotowany tak, aby dobrze wyglądał zarówno na komputerach, jak i na urządzeniach mobilnych.</p></div></div>
+            <summary id="faqQ5">Czy strona jest responsywna?</summary>
+            <div class="faq-answer"><div class="faq-answer-inner"><p id="faqA5">Tak, projekt został przygotowany tak, aby dobrze wyglądał zarówno na komputerach, jak i na urządzeniach mobilnych.</p></div></div>
           </details>
 
           <details class="faq-item">
-            <summary>Gdzie mogę uzyskać pomoc?</summary>
-            <div class="faq-answer"><div class="faq-answer-inner"><p>Pomoc znajdziesz w naszej społeczności oraz przez kontakt bezpośredni. W zależności od planu dostępne jest też szybsze wsparcie premium.</p></div></div>
+            <summary id="faqQ6">Gdzie mogę uzyskać pomoc?</summary>
+            <div class="faq-answer"><div class="faq-answer-inner"><p id="faqA6">Pomoc znajdziesz w naszej społeczności oraz przez kontakt bezpośredni. W zależności od planu dostępne jest też szybsze wsparcie premium.</p></div></div>
           </details>
         </div>
       </div>
     </section>
   </main>
 
+  <section class="contact-page" id="contact-page" aria-hidden="true">
+    <div class="contact-overlay"></div>
+    <div class="container contact-shell">
+      <div class="contact-topbar">
+        <button class="back-btn" id="backHome">← Wróć</button>
+      </div>
+
+      <div class="contact-hero">
+        <div class="badge" id="contactBadge">/Kontakt</div>
+        <h1><span id="contactTitle1">Nasz</span> <span class="accent" id="contactTitle2">kontakt</span></h1>
+        <p id="contactDesc">Skontaktuj się z nami mailowo albo przez Discord. Odpowiadamy możliwie szybko i pomagamy w sprawach technicznych, zakupowych oraz organizacyjnych.</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-card big-card">
+          <h3 id="contactEmailTitle">Email</h3>
+          <a class="contact-value" href="mailto:canonek123@gmail.com">canonek123@gmail.com</a>
+          <p id="contactEmailDesc">Napisz do nas w sprawie współpracy, pytań technicznych albo pomocy z dostępem.</p>
+        </div>
+
+        <div class="contact-card big-card">
+          <h3 id="contactDiscordTitle">Discord</h3>
+          <a class="contact-value" href="https://dc.ablesmp.pl" target="_blank" rel="noopener noreferrer">dc.ablesmp.pl</a>
+          <p id="contactDiscordDesc">Dołącz do społeczności, zadaj pytanie i sprawdź najnowsze ogłoszenia oraz informacje. Link otwiera się w nowej karcie, więc nie będzie błędu z zablokowaną stroną.</p>
+        </div>
+
+        <div class="contact-card">
+          <h3 id="contactHoursTitle">Godziny odpowiedzi</h3>
+          <p id="contactHoursDesc">Najczęściej odpowiadamy codziennie w godzinach popołudniowych i wieczornych.</p>
+        </div>
+
+        <div class="contact-card">
+          <h3 id="contactSupportTitle">Pomoc techniczna</h3>
+          <p id="contactSupportDesc">Masz problem z dostępem, konfiguracją albo zakupem? Napisz do nas, a pomożemy krok po kroku.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <footer id="contact">
-    <div class="container">
+    <div class="container" id="footerText">
       © 2026 Hacking Area — wszystkie prawa zastrzeżone
     </div>
   </footer>
+
+  <script>
+    const contactLink = document.getElementById('contactLink');
+    const contactPage = document.getElementById('contact-page');
+    const backHome = document.getElementById('backHome');
+    const langToggle = document.getElementById('langToggle');
+    const langMenu = document.getElementById('langMenu');
+    const currentLangLabel = document.getElementById('currentLangLabel');
+    const langOptions = document.querySelectorAll('.lang-option');
+
+    const translations = {
+      pl: {
+        navHome: 'Start', navFeatures: 'Funkcje', navPricing: 'Zakup', navCommunity: 'Community', navFaq: 'FAQ', contactLink: 'Kontakt',
+        heroBadge: '/New Edition', heroTitle1: 'Wejdź do', heroTitle2: 'Hacking Area', heroTitle3: 'i odblokuj swój styl',
+        heroDesc: 'Nowoczesna platforma premium z ciemnym zielonym motywem, gotowymi konfiguracjami i dostępem do aktywnej społeczności.',
+        heroBtn1: 'Zobacz plany', heroBtn2: 'Więcej informacji',
+        feature1Title: 'Nowoczesny kod', feature1Desc: 'Dzięki uniwersalnemu kodowi i przemyślanemu układowi strona działa płynnie i dobrze wygląda na różnych urządzeniach.',
+        feature2Title: 'Szybka pomoc', feature2Desc: 'Nasz support i administratorzy zapewniają sprawny kontakt oraz pomoc dla użytkowników w każdej chwili.',
+        feature3Title: 'Plany warte swojej ceny', feature3Desc: 'Każdy plan daje dostęp do regularnych aktualizacji, materiałów premium i dodatkowych korzyści zależnych od wybranego wariantu.',
+        pricingTitle: 'Plany zakupu licencji', pricingSubtitle: 'Każdy plan oferuje długoterminowy dostęp, aktualizacje oraz dodatkowe korzyści zależnie od wybranego poziomu.',
+        planBasicName: 'Plan Basic', planBasicDesc: 'Dobry na start dla osób, które chcą sprawdzić podstawową wersję i szybki dostęp.', basicFeature1: 'Dostęp Basic', basicFeature2: 'Podstawowe aktualizacje', basicFeature3: 'Standard license', buyBasicBtn: 'Kup teraz',
+        popularTag: 'Najpopularniejszy', planProName: 'Plan Pro', planProDesc: 'Najlepszy wybór dla użytkowników, którzy chcą pełny pakiet i bardziej rozbudowane możliwości.', proFeature1: 'Pełny dostęp Basic', proFeature2: 'Priority updates', proFeature3: 'Beta access', proFeature4: 'Priorytetowe wsparcie', buyProBtn: 'Kup teraz',
+        planEliteName: 'Plan Elite', planEliteDesc: 'Dla osób, które chcą najbardziej premium wariant z dodatkowymi opcjami i najwyższym statusem.', eliteFeature1: 'Everything in Pro', eliteFeature2: 'Extra premium perks', eliteFeature3: 'VIP support', buyEliteBtn: 'Kup teraz',
+        communityLabel: 'CHMURA', communityTitle: 'Konfiguracje użytkowników dostępne bez pobierania czegokolwiek.', communityDesc: 'Zaufało nam wielu użytkowników. Poniżej znajdziesz przykładowe opinie i sekcję społeczności w nowoczesnym, ciemnym stylu.',
+        faqTitle: 'Najczęstsze pytania', faqSubtitle: 'Odpowiedzi na najczęściej zadawane pytania.', faqQ1: 'Co to Hacking Area?', faqA1: 'Hacking Area to nowoczesna platforma z konfiguracjami, aktualizacjami i dostępem do społeczności skupionej wokół personalizacji oraz narzędzi premium.',
+        faqQ2: 'Jak mogę korzystać z waszych planów?', faqA2: 'Po zakupie otrzymujesz dostęp do wybranego planu, aktualizacji oraz materiałów przypisanych do konta. Wszystko jest dostępne w prosty i wygodny sposób.',
+        faqQ3: 'Co zawiera każdy plan?', faqA3: 'Zakres zależy od planu, ale obejmuje między innymi dostęp do konfiguracji, aktualizacji, wsparcia oraz dodatkowych materiałów dla użytkowników premium.',
+        faqQ4: 'Czy mogę zmienić plan później?', faqA4: 'Tak, w każdej chwili możesz przejść na wyższy wariant, aby odblokować dodatkowe możliwości i priorytetowe wsparcie.',
+        faqQ5: 'Czy strona jest responsywna?', faqA5: 'Tak, projekt został przygotowany tak, aby dobrze wyglądał zarówno na komputerach, jak i na urządzeniach mobilnych.',
+        faqQ6: 'Gdzie mogę uzyskać pomoc?', faqA6: 'Pomoc znajdziesz w naszej społeczności oraz przez kontakt bezpośredni. W zależności od planu dostępne jest też szybsze wsparcie premium.',
+        contactBadge: '/Kontakt', contactTitle1: 'Nasz', contactTitle2: 'kontakt', contactDesc: 'Skontaktuj się z nami mailowo albo przez Discord. Odpowiadamy możliwie szybko i pomagamy w sprawach technicznych, zakupowych oraz organizacyjnych.',
+        contactEmailTitle: 'Email', contactEmailDesc: 'Napisz do nas w sprawie współpracy, pytań technicznych albo pomocy z dostępem.', contactDiscordTitle: 'Discord', contactDiscordDesc: 'Dołącz do społeczności, zadaj pytanie i sprawdź najnowsze ogłoszenia oraz informacje. Link otwiera się w nowej karcie, więc nie będzie błędu z zablokowaną stroną.',
+        contactHoursTitle: 'Godziny odpowiedzi', contactHoursDesc: 'Najczęściej odpowiadamy codziennie w godzinach popołudniowych i wieczornych.', contactSupportTitle: 'Pomoc techniczna', contactSupportDesc: 'Masz problem z dostępem, konfiguracją albo zakupem? Napisz do nas, a pomożemy krok po kroku.',
+        footerText: '© 2026 Hacking Area — wszystkie prawa zastrzeżone'
+      },
+      en: {
+        navHome: 'Home', navFeatures: 'Features', navPricing: 'Pricing', navCommunity: 'Community', navFaq: 'FAQ', contactLink: 'Contact',
+        heroBadge: '/New Edition', heroTitle1: 'Enter', heroTitle2: 'Hacking Area', heroTitle3: 'and unlock your style',
+        heroDesc: 'A modern premium platform with a dark green theme, ready-made configurations, and access to an active community.',
+        heroBtn1: 'View plans', heroBtn2: 'Learn more',
+        feature1Title: 'Modern code', feature1Desc: 'Thanks to a universal codebase and a thoughtful layout, the site runs smoothly and looks great on different devices.',
+        feature2Title: 'Fast support', feature2Desc: 'Our support team and administrators provide quick contact and help for users whenever needed.',
+        feature3Title: 'Plans worth the price', feature3Desc: 'Each plan gives access to regular updates, premium materials, and additional benefits depending on the selected option.',
+        pricingTitle: 'License purchase plans', pricingSubtitle: 'Each plan offers long-term access, updates, and additional benefits depending on the selected level.',
+        planBasicName: 'Basic Plan', planBasicDesc: 'A good start for users who want to try the basic version and get quick access.', basicFeature1: 'Basic access', basicFeature2: 'Basic updates', basicFeature3: 'Standard license', buyBasicBtn: 'Buy now',
+        popularTag: 'Most popular', planProName: 'Pro Plan', planProDesc: 'The best choice for users who want the full package and more advanced options.', proFeature1: 'Full Basic access', proFeature2: 'Priority updates', proFeature3: 'Beta access', proFeature4: 'Priority support', buyProBtn: 'Buy now',
+        planEliteName: 'Elite Plan', planEliteDesc: 'For users who want the most premium option with extra features and top status.', eliteFeature1: 'Everything in Pro', eliteFeature2: 'Extra premium perks', eliteFeature3: 'VIP support', buyEliteBtn: 'Buy now',
+        communityLabel: 'CLOUD', communityTitle: 'User configurations available without downloading anything.', communityDesc: 'Trusted by many users. Below you will find sample reviews and a community section in a modern dark style.',
+        faqTitle: 'Frequently asked questions', faqSubtitle: 'Answers to the most frequently asked questions.', faqQ1: 'What is Hacking Area?', faqA1: 'Hacking Area is a modern platform with configurations, updates, and access to a community focused on personalization and premium tools.',
+        faqQ2: 'How can I use your plans?', faqA2: 'After purchase, you get access to the selected plan, updates, and materials assigned to your account. Everything is available in a simple and convenient way.',
+        faqQ3: 'What does each plan include?', faqA3: 'The scope depends on the plan, but it includes access to configurations, updates, support, and additional materials for premium users.',
+        faqQ4: 'Can I upgrade my plan later?', faqA4: 'Yes, you can switch to a higher tier at any time to unlock additional features and priority support.',
+        faqQ5: 'Is the website responsive?', faqA5: 'Yes, the project was prepared to look good on both desktop and mobile devices.',
+        faqQ6: 'Where can I get help?', faqA6: 'You can get help in our community and through direct contact. Depending on the plan, faster premium support is also available.',
+        contactBadge: '/Contact', contactTitle1: 'Our', contactTitle2: 'contact', contactDesc: 'Get in touch with us by email or through Discord. We respond as quickly as possible and help with technical, purchase, and organizational matters.',
+        contactEmailTitle: 'Email', contactEmailDesc: 'Write to us about cooperation, technical questions, or access help.', contactDiscordTitle: 'Discord', contactDiscordDesc: 'Join the community, ask questions, and check the latest announcements and information. The link opens in a new tab.',
+        contactHoursTitle: 'Response hours', contactHoursDesc: 'We usually respond every day in the afternoon and evening.', contactSupportTitle: 'Technical support', contactSupportDesc: 'Having trouble with access, configuration, or purchase? Write to us and we will help step by step.',
+        footerText: '© 2026 Hacking Area — all rights reserved'
+      }
+    };
+
+    function setLanguage(lang) {
+      const data = translations[lang] || translations.pl;
+      Object.entries(data).forEach(([id, value]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+      });
+      document.documentElement.lang = lang;
+      currentLangLabel.textContent = lang.toUpperCase();
+      localStorage.setItem('ha_lang', lang);
+    }
+
+    function openContactPage(event) {
+      event.preventDefault();
+      contactPage.classList.add('active');
+      contactPage.setAttribute('aria-hidden', 'false');
+      document.body.classList.add('contact-open');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function closeContactPage() {
+      contactPage.classList.remove('active');
+      contactPage.setAttribute('aria-hidden', 'true');
+      document.body.classList.remove('contact-open');
+    }
+
+    langToggle.addEventListener('click', () => {
+      const active = langMenu.classList.toggle('active');
+      langToggle.setAttribute('aria-expanded', active ? 'true' : 'false');
+    });
+
+    langOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        setLanguage(option.dataset.lang);
+        langMenu.classList.remove('active');
+        langToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!event.target.closest('.lang-switcher')) {
+        langMenu.classList.remove('active');
+        langToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    const savedLang = localStorage.getItem('ha_lang') || 'pl';
+    setLanguage(savedLang);
+
+    contactLink.addEventListener('click', openContactPage);
+    backHome.addEventListener('click', closeContactPage);
+  </script>
 </body>
 </html>

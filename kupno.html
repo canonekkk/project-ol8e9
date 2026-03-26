@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kupno — Hacking Area</title>
+  <style>
+    :root {
+      --text: #ecfff0;
+      --muted: #7f9888;
+      --green: #4fd07c;
+      --green-2: #245f3d;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(79, 208, 124, 0.09), transparent 24%),
+        radial-gradient(circle at 80% 10%, rgba(79, 208, 124, 0.08), transparent 20%),
+        linear-gradient(180deg, rgba(2, 5, 2, 1), rgba(4, 12, 7, 1));
+      color: var(--text);
+      min-height: 100vh;
+      padding: 34px 16px 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .wrapper {
+      width: min(920px, 100%);
+    }
+
+    .back-btn {
+      display: inline-block;
+      text-decoration: none;
+      border-radius: 14px;
+      font-weight: 800;
+      border: 1px solid rgba(79, 208, 124, 0.18);
+      background: rgba(8, 18, 11, 0.85);
+      color: var(--text);
+      padding: 12px 18px;
+      margin-bottom: 28px;
+      transition: transform 0.2s ease;
+    }
+
+    .back-btn:hover,
+    .go-btn:hover {
+      transform: translateY(3px);
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(7, 15, 9, 0.95), rgba(8, 18, 11, 0.9));
+      border: 1px solid rgba(79, 208, 124, 0.14);
+      border-radius: 26px;
+      padding: 36px;
+      box-shadow: 0 22px 50px rgba(0, 0, 0, 0.28);
+      animation: fadeUp 0.45s ease;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 10px 18px;
+      border: 1px solid rgba(91, 255, 147, 0.28);
+      border-radius: 999px;
+      color: var(--green);
+      background: rgba(12, 25, 14, 0.85);
+      margin-bottom: 24px;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 7vw, 4.6rem);
+      line-height: 1;
+      margin-bottom: 18px;
+    }
+
+    .accent {
+      color: var(--green);
+    }
+
+    .desc {
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 700px;
+      margin: 0 auto 26px;
+      font-size: 1.05rem;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+      margin-top: 28px;
+      margin-bottom: 28px;
+      text-align: left;
+    }
+
+    .summary-card {
+      background: rgba(8, 18, 11, 0.7);
+      border: 1px solid rgba(79, 208, 124, 0.12);
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    .summary-card h3 {
+      color: var(--green);
+      margin-bottom: 10px;
+    }
+
+    .summary-card p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .value {
+      display: block;
+      font-size: 1.7rem;
+      font-weight: 900;
+      color: var(--text);
+      margin-top: 10px;
+    }
+
+    .go-btn {
+      display: inline-block;
+      text-decoration: none;
+      padding: 18px 30px;
+      border-radius: 16px;
+      font-weight: 900;
+      background: linear-gradient(90deg, var(--green-2), var(--green));
+      color: #031006;
+      box-shadow: 0 14px 35px rgba(22, 88, 49, 0.22);
+      transition: transform 0.2s ease, filter 0.2s ease;
+    }
+
+    .go-btn:hover {
+      filter: brightness(1.05);
+    }
+
+    .small {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 780px) {
+      .summary {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <a href="index.html" class="back-btn">← Wróć</a>
+
+    <div class="card">
+      <div class="badge">/Zakup</div>
+      <h1>Kup <span class="accent" id="planName">Plan</span></h1>
+      <p class="desc">
+        Poniżej znajdziesz podsumowanie wybranego pakietu. Po kliknięciu przycisku przejdziesz dalej na stronę dc.ablesmp.pl.
+      </p>
+
+      <div class="summary">
+        <div class="summary-card">
+          <h3>Wybrany pakiet</h3>
+          <span class="value" id="selectedPlan">Plan</span>
+          <p>To pakiet, który został wybrany z głównej strony oferty.</p>
+        </div>
+
+        <div class="summary-card">
+          <h3>Cena</h3>
+          <span class="value" id="selectedPrice">0€</span>
+          <p>Kwota wyświetlana na podstawie wybranego planu.</p>
+        </div>
+      </div>
+
+      <a href="https://dc.ablesmp.pl" target="_blank" rel="noopener noreferrer" class="go-btn">
+        Przejdź do zakupu
+      </a>
+
+      <p class="small">Link otwiera się w nowej karcie.</p>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const plan = params.get('plan') || 'Basic';
+    const price = params.get('price') || '7€';
+
+    document.getElementById('planName').textContent = plan;
+    document.getElementById('selectedPlan').textContent = `Plan ${plan}`;
+    document.getElementById('selectedPrice').textContent = price;
+  </script>
+</body>
+</html>
